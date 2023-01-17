@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   validator:
-    image: arashidos/lava:v0.4.0
+    image: arashidos/lava:cosmovisor
 
     env_file:
       - .env
