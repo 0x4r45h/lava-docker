@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  validator:
+    image: arashidos/lava:v0.4.0
+
+    env_file:
+      - .env
+    restart: unless-stopped
+    entrypoint: ["/opt/custom-entrypoint.sh"]
+    command:
+      - "start"
+    ports:
+      - "${PORT_RPC}:26657"
+      - "${PORT_PEER}:26656"
+      - "${PORT_API}:1317"
+      - "${PORT_GRPC}:9090"
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    networks:
+      default:
+    volumes:
+      - ./entrypoint.sh:/opt/custom-entrypoint.sh
+      - ./helpers.sh:/opt/helpers.sh
+      - lava:/root/.lava
+volumes:
+  lava:
+networks:
+  default:
