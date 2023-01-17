@@ -53,7 +53,3 @@ docker compose exec validator /opt/helpers.sh wallet:balance
 docker compose exec validator /opt/helpers.sh validator:connect
 ```
 
-### Delegate to a Validator
-```shell
-docker compose exec validator /opt/helpers.sh validator:delegate <celestiavaloper address> <amount>utia
-```
