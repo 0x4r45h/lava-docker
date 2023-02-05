@@ -65,6 +65,10 @@ elif [ "$1" = 'node:restore' ]; then
     busybox sh -c "cp /src/node_key.json /src/priv_validator_key.json /dst/config/"
 elif [ "$1" = 'validator:connect' ]; then
   _validator_connect
+elif [ "$1" = 'validator:delegate' ]; then
+  _delegate_to_validator "$@"
+elif [ "$1" = 'validator:vote' ]; then
+  _vote "$@"
 elif [ "$1" = 'validator:sync-info' ]; then
   $LAVA_CURRENT_BINARY status | jq .SyncInfo
 else
