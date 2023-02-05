@@ -53,3 +53,15 @@ docker compose exec validator /opt/helpers.sh wallet:balance
 docker compose exec validator /opt/helpers.sh validator:connect
 ```
 
+### Delegate to validator
+first get the valoper address:
+```shell
+docker compose exec validator /opt/helpers.sh node:valoper
+```
+then use the valoper address and amount in ulava , e.g to delegate 325ulava:
+```shell
+docker compose exec validator /opt/helpers.sh validator:delegate VALOPER_ADDRESS_HERE "325ulava"
+
+```
+
+

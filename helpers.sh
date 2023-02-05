@@ -48,6 +48,9 @@ $LAVA_CURRENT_BINARY-appd tx staking delegate \
     --home="/root/.lava/" \
     --from=$ACCOUNT_NAME
 }
+_getNodeValoperAddress() {
+  $LAVA_CURRENT_BINARY keys show $VALIDATOR_WALLET_NAME --bech val -a
+}
 
 if [ "$1" = 'wallet:balance' ]; then
   _get_wallet_balance
@@ -63,6 +66,8 @@ elif [ "$1" = 'node:restore' ]; then
     -v lava-docker_lava:/dst \
     -v $(pwd)/backup_validator_keys:/src \
     busybox sh -c "cp /src/node_key.json /src/priv_validator_key.json /dst/config/"
+elif [ "$1" = 'node:valoper' ]; then
+  _getNodeValoperAddress
 elif [ "$1" = 'validator:connect' ]; then
   _validator_connect
 elif [ "$1" = 'validator:delegate' ]; then
