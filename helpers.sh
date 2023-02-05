@@ -27,6 +27,27 @@ $LAVA_CURRENT_BINARY tx staking create-validator \
     --home="/root/.lava/" \
     --from=$ACCOUNT_NAME
 }
+_vote() {
+$LAVA_CURRENT_BINARY tx gov vote $2 $3\
+    --chain-id=lava-testnet-1 \
+    --gas="auto" \
+    --gas-adjustment="1.5" \
+    --gas-prices="0.05ulava" \
+    --home="/root/.lava/" \
+    --from=$ACCOUNT_NAME
+}
+
+_delegate_to_validator() {
+  # first argument is celestiavaloper address of validator and second is the amount e.g 1000000utia
+$LAVA_CURRENT_BINARY-appd tx staking delegate \
+    $2 $3 \
+    --chain-id=lava-testnet-1 \
+    --gas="auto" \
+    --gas-adjustment="1.5" \
+    --gas-prices="0.05ulava" \
+    --home="/root/.lava/" \
+    --from=$ACCOUNT_NAME
+}
 
 if [ "$1" = 'wallet:balance' ]; then
   _get_wallet_balance
