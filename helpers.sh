@@ -27,6 +27,16 @@ $LAVA_CURRENT_BINARY tx staking create-validator \
     --home="/root/.lava/" \
     --from=$ACCOUNT_NAME
 }
+
+_validator_unjail() {
+$LAVA_CURRENT_BINARY tx slashing unjail \
+    --chain-id=lava-testnet-1 \
+    --gas="auto" \
+    --gas-adjustment="1.5" \
+    --gas-prices="0.05ulava" \
+    --home="/root/.lava/" \
+    --from=$ACCOUNT_NAME
+}
 _vote() {
 $LAVA_CURRENT_BINARY tx gov vote $2 $3\
     --chain-id=lava-testnet-1 \
@@ -70,6 +80,8 @@ elif [ "$1" = 'node:valoper' ]; then
   _getNodeValoperAddress
 elif [ "$1" = 'validator:connect' ]; then
   _validator_connect
+elif [ "$1" = 'validator:unjail' ]; then
+  _validator_unjail
 elif [ "$1" = 'validator:delegate' ]; then
   _delegate_to_validator "$@"
 elif [ "$1" = 'validator:vote' ]; then
