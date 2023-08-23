@@ -16,7 +16,7 @@ $LAVA_CURRENT_BINARY tx staking create-validator \
     --amount="10000ulava" \
     --pubkey=$($LAVA_CURRENT_BINARY tendermint show-validator) \
     --moniker=$MONIKER_NAME \
-    --chain-id=lava-testnet-1 \
+    --chain-id=lava-testnet-2 \
     --commission-rate="0.10" \
     --commission-max-rate="0.20" \
     --commission-max-change-rate="0.01" \
@@ -30,7 +30,7 @@ $LAVA_CURRENT_BINARY tx staking create-validator \
 
 _validator_unjail() {
 $LAVA_CURRENT_BINARY tx slashing unjail \
-    --chain-id=lava-testnet-1 \
+    --chain-id=lava-testnet-2 \
     --gas="auto" \
     --gas-adjustment="1.5" \
     --gas-prices="0.05ulava" \
@@ -39,7 +39,7 @@ $LAVA_CURRENT_BINARY tx slashing unjail \
 }
 _vote() {
 $LAVA_CURRENT_BINARY tx gov vote $2 $3\
-    --chain-id=lava-testnet-1 \
+    --chain-id=lava-testnet-2 \
     --gas="auto" \
     --gas-adjustment="1.5" \
     --gas-prices="0.05ulava" \
@@ -48,10 +48,10 @@ $LAVA_CURRENT_BINARY tx gov vote $2 $3\
 }
 
 _delegate_to_validator() {
-  # first argument is celestiavaloper address of validator and second is the amount e.g 1000000utia
+  # first argument is valoper address of validator and second is the amount e.g 1000000u
 $LAVA_CURRENT_BINARY-appd tx staking delegate \
     $2 $3 \
-    --chain-id=lava-testnet-1 \
+    --chain-id=lava-testnet-2 \
     --gas="auto" \
     --gas-adjustment="1.5" \
     --gas-prices="0.05ulava" \
@@ -59,7 +59,11 @@ $LAVA_CURRENT_BINARY-appd tx staking delegate \
     --from=$ACCOUNT_NAME
 }
 _getNodeValoperAddress() {
-  $LAVA_CURRENT_BINARY keys show $VALIDATOR_WALLET_NAME --bech val -a
+  $LAVA_CURRENT_BINARY keys show $ACCOUNT_NAME --bech val -a
+}
+_getValidatorStakingState() {
+  valoper=$(_getNodeValoperAddress)
+  $LAVA_CURRENT_BINARY query staking validator $valoper --chain-id lava-testnet-2
 }
 
 if [ "$1" = 'wallet:balance' ]; then
@@ -78,6 +82,8 @@ elif [ "$1" = 'node:restore' ]; then
     busybox sh -c "cp /src/node_key.json /src/priv_validator_key.json /dst/config/"
 elif [ "$1" = 'node:valoper' ]; then
   _getNodeValoperAddress
+elif [ "$1" = 'validator:query' ]; then
+  _getValidatorStakingState
 elif [ "$1" = 'validator:connect' ]; then
   _validator_connect
 elif [ "$1" = 'validator:unjail' ]; then

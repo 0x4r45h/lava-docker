@@ -37,6 +37,8 @@ init_function() {
   $LAVA_GENESIS_BINARY init $MONIKER_NAME > /dev/null 2>&1
   # Replace genesis.json with backed up file
   cp /root/.lava/config/genesis.json.bak /root/.lava/config/genesis.json
+  # set chain id for testnet-2
+  $LAVA_GENESIS_BINARY config chain-id lava-testnet-2
   # Print validator pubkey
   echo "Validator pubkey is : "
   $LAVA_GENESIS_BINARY tendermint show-validator

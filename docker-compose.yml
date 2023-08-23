@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   validator:
-    image: arashidos/lava:cosmovisor
+    image: arashidos/lava:cosmovisor-v2
 
     env_file:
       - .env
@@ -26,7 +26,7 @@ services:
       - ./helpers.sh:/opt/helpers.sh
       - lava:/root/.lava
   rpcprovider:
-    image: arashidos/lava:cosmovisor
+    image: arashidos/lava:cosmovisor-v2
 
     env_file:
       - .env
