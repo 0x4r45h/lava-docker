@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  rpcprovider:
+    image: arashidos/lava:cosmovisor-v2
+    env_file:
+      - .env
+    restart: unless-stopped
+    entrypoint: ["/opt/custom-entrypoint.sh"]
+    command:
+      - "start"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=public
+      - traefik.http.routers.rpc-lava.entrypoints=websecure
+      - traefik.http.routers.rpc-lava.rule= Host(`lava.megagigaupload.fun`)
+      - traefik.http.routers.rpc-lava.service=rpc-lava-service
+      - traefik.http.routers.rpc-lava.tls=true
+      - traefik.http.routers.rpc-lava.tls.certresolver=cloudflare
+      - traefik.http.services.rpc-lava-service.loadbalancer.server.port=2221
+      - traefik.http.services.rpc-lava-service.loadbalancer.server.scheme=h2c
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    networks:
+      lava-docker_lava:
+      public:
+    volumes:
+      - ./rpc-entrypoint.sh:/opt/custom-entrypoint.sh
+      - ./rpcprovider.yml:/rpcprovider.yml
+#      - ./helpers.sh:/opt/helpers.sh
+      - lava-docker_lava:/root/.lava
+volumes:
+  lava-docker_lava:
+    external: true
+
+networks:
+  lava-docker_lava:
+    external: true
+  public:
+    external: true
