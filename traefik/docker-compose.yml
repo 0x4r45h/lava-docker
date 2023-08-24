@@ -2,10 +2,8 @@ version: '3.9'
 
 services:
   traefik:
-    image: traefik:v2.9.6
+    image: traefik:v2.10
     restart: unless-stopped
-    env_file:
-      - .env
     networks:
       - public
     ports:
@@ -14,16 +12,6 @@ services:
       - "443:443/udp"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`dash.${TRAEFIK_ROOT_DOMAIN}`)"
-      - "traefik.http.routers.api.service=api@internal"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_AUTH}"
-      - "traefik.http.middlewares.traefik-auth.basicauth.removeheader=true"
-      - "traefik.http.routers.api.middlewares=traefik-auth"
-      - "traefik.http.routers.api.entrypoints=websecure"
-      - "traefik.http.routers.api.tls=true"
-      - "traefik.http.routers.api.tls.certResolver=httpresolver"
-      - "traefik.http.routers.api.tls.domains[0].main=${TRAEFIK_ROOT_DOMAIN}"
-      - "traefik.http.routers.api.tls.domains[0].sans=*.${TRAEFIK_ROOT_DOMAIN}"
     logging:
       options:
         max-size: "12m"

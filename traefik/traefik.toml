@@ -5,17 +5,15 @@ address = ":80"
 [entryPoints.web.http.redirections.entryPoint]
 to = "websecure"
 scheme = "https"
-[entryPoints.web.proxyProtocol]
-trustedIPs = ["127.0.0.1/32"]
 
 [entryPoints.websecure]
 address = ":443"
 
 [api]
-dashboard = true
+dashboard = false
 
 [certificatesResolvers.httpresolver.acme]
-email = "foobar@gmail.com"
+email = "foobar@example.com"
 storage = "acme.json"
 # caServer = "https://acme-staging-v02.api.letsencrypt.org/directory" # uncomment this line to enable staging mode
 keyType= "EC256"
