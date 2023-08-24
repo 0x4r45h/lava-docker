@@ -1,0 +1,32 @@
+[entryPoints]
+[entryPoints.web]
+address = ":80"
+
+[entryPoints.web.http.redirections.entryPoint]
+to = "websecure"
+scheme = "https"
+[entryPoints.web.proxyProtocol]
+trustedIPs = ["127.0.0.1/32"]
+
+[entryPoints.websecure]
+address = ":443"
+
+[api]
+dashboard = true
+
+[certificatesResolvers.httpresolver.acme]
+email = "foobar@gmail.com"
+storage = "acme.json"
+# caServer = "https://acme-staging-v02.api.letsencrypt.org/directory" # uncomment this line to enable staging mode
+keyType= "EC256"
+[certificatesResolvers.httpresolver.acme.httpChallenge]
+entryPoint = "web"
+
+[providers.docker]
+watch = true
+network = "public"
+exposedByDefault = false
+
+[log]
+level = "WARNING"
+[accessLog]
