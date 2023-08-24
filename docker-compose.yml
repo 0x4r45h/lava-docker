@@ -1,14 +1,12 @@
 version: "3.9"
 services:
   validator:
-    image: arashidos/lava:cosmovisor-v2
-
+    image: arashidos/lava-cosmovisor:v2.1.2
     env_file:
       - .env
     restart: unless-stopped
-    entrypoint: ["/opt/custom-entrypoint.sh"]
     command:
-      - "start"
+      - "start-node"
     ports:
       - "${PORT_RPC}:26657"
       - "${PORT_PEER}:26656"
@@ -21,36 +19,13 @@ services:
     networks:
       lava:
     volumes:
-      - ./entrypoint.sh:/opt/custom-entrypoint.sh
-      - ./rpcprovider.yml:/rpcprovider.yml
-      - ./helpers.sh:/opt/helpers.sh
-      - lava:/root/.lava
-  rpcprovider:
-    image: arashidos/lava:cosmovisor-v2
-
-    env_file:
-      - .env
-    restart: unless-stopped
-    entrypoint: ["/opt/custom-entrypoint.sh"]
-    command:
-      - "start"
-    ports:
-      - "9192:9192"
-      - "37658:37658"
-      - "1428:1428"
-      - "19911:19911"
-    logging:
-      options:
-        max-size: "12m"
-        max-file: "5"
-    networks:
-      lava:
-    volumes:
-      - ./rpc-entrypoint.sh:/opt/custom-entrypoint.sh
-      - ./rpcprovider.yml:/rpcprovider.yml
       - ./helpers.sh:/opt/helpers.sh
       - lava:/root/.lava
 volumes:
   lava:
+    external: true
+    name: lava
 networks:
   lava:
+    external: true
+    name: lava

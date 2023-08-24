@@ -3,6 +3,11 @@
 ### Requirements
 - Docker and Docker Compose (Tested on Linux only)
 
+## Initialize external volumes and networks
+create required external network and volume, which will be shared between different instances of nodes and providers
+```shell
+docker network create lava && docker network create public && docker volume create lava
+```
 ## Validator
 to run a validator clone this repo on server and cd into it
 
@@ -11,7 +16,8 @@ copy environment file sample to .env and set your configs
 cp .env.sample .env
 ```
 
-### Initialize configs
+### Initialize
+
 follow the instructions to import your wallet, or backup newly generated account and public key
 ```shell
 docker compose run --rm validator init
