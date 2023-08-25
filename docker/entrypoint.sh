@@ -37,6 +37,8 @@ init_function() {
   $LAVA_GENESIS_BINARY init $MONIKER_NAME > /dev/null 2>&1
   # Replace genesis.json with backed up file
   cp /root/.lava/config/genesis.json.bak /root/.lava/config/genesis.json
+  # set chain id for testnet-2
+  $LAVA_GENESIS_BINARY config chain-id lava-testnet-2
   # Print validator pubkey
   echo "Validator pubkey is : "
   $LAVA_GENESIS_BINARY tendermint show-validator
@@ -47,8 +49,11 @@ main() {
     "init")
       init_function
       ;;
-    "start")
+    "start-node")
       cosmovisor start --home=/root/.lava --p2p.seeds $SEED_NODE
+      ;;
+    "start-provider")
+      cosmovisor --home /root/.lava rpcprovider --node $LAVA_NODE --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --chain-id $CHAIN_ID --log_level $LOG_LEVEL
       ;;
     *)
       exec "$@"

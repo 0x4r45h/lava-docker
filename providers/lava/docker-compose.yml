@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  rpcprovider:
+    image: arashidos/lava-cosmovisor:v2.0.0
+    env_file:
+      - .env
+    restart: unless-stopped
+    command:
+      - "start-provider"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=public
+      - traefik.http.routers.rpc-${RPC_CONTAINER_LABEL}.entrypoints=websecure
+      - traefik.http.routers.rpc-${RPC_CONTAINER_LABEL}.rule=Host(`${RPC_URL}`)
+      - traefik.http.routers.rpc-${RPC_CONTAINER_LABEL}.service=rpc-${RPC_CONTAINER_LABEL}-service
+      - traefik.http.routers.rpc-${RPC_CONTAINER_LABEL}.tls=true
+      - traefik.http.routers.rpc-${RPC_CONTAINER_LABEL}.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
+      - traefik.http.services.rpc-${RPC_CONTAINER_LABEL}-service.loadbalancer.server.port=2221
+      - traefik.http.services.rpc-${RPC_CONTAINER_LABEL}-service.loadbalancer.server.scheme=h2c
+    logging:
+      options:
+        max-size: "12m"
+        max-file: "5"
+    networks:
+      lava:
+      public:
+    volumes:
+      - ./rpcprovider.yml:/rpcprovider.yml
+      - lava:/root/.lava
+volumes:
+  lava:
+    external: true
+    name: lava
+networks:
+  lava:
+    external: true
+    name: lava
+  public:
+    external: true
