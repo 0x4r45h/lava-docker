@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LAVA_CURRENT_BINARY="/root/.lava/cosmovisor/current/bin/lavad --home /root/.lava"
-
+LAVA_VOLUME="lava"
 set -e
 
 _get_wallet_balance() {
@@ -71,13 +71,13 @@ if [ "$1" = 'wallet:balance' ]; then
 elif [ "$1" = 'node:backup' ]; then
   mkdir -p ./backup_validator_keys
   docker run --rm \
-  -v lava-docker_lava:/src \
+  -v $LAVA_VOLUME:/src \
   -v $(pwd)/backup_validator_keys:/dst \
   busybox sh -c "cp /src/config/node_key.json /src/config/priv_validator_key.json /dst/"
 
 elif [ "$1" = 'node:restore' ]; then
     docker run --rm \
-    -v lava-docker_lava:/dst \
+    -v $LAVA_VOLUME:/dst \
     -v $(pwd)/backup_validator_keys:/src \
     busybox sh -c "cp /src/node_key.json /src/priv_validator_key.json /dst/config/"
 elif [ "$1" = 'node:valoper' ]; then

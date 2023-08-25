@@ -16,8 +16,7 @@ touch traefik/acme.json && chmod 600 traefik/acme.json
 we use traefik as reverse proxy. it also manages certificates seamlessly.    
 insert your email inside `traefik.toml` file, then run traefik instance:    
 ```shell
-cd traefik
-docker compose up -d
+docker compose -f traefik/docker-compose.yml up -d
 ```
 
 ## Validator
