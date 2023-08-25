@@ -14,7 +14,7 @@ touch traefik/acme.json && chmod 600 traefik/acme.json
 ```   
 ## Traefik 
 we use traefik as reverse proxy. it also manages certificates seamlessly.    
-insert your email inside `traefik.toml` file, then run traefik instance:    
+insert your email (a valid email address or no cert will be generated) inside `traefik.toml` file under `certificatesResolvers.httpresolver.acme`, then run traefik instance:    
 ```shell
 docker compose -f traefik/docker-compose.yml up -d
 ```
@@ -48,14 +48,26 @@ otherwise make a backup from newly generated files and keep them safe:
 docker compose up -d validator
 ```
 
+### Run lavad commands
+Generally, to run any `lavad` commands, prefix it like this:
+```bash
+docker compose exec [service name] lavad [command args]
+```
+where service name can be validator or rpcprovider. based on which docker-compose.yml file you are working with
+
+for example to test lava rpc using our validator service as node, inside rpc provider directory:
+```bash
+docker compose exec rpcprovider lavad test rpcprovider tcp://validator:26657 --from foo --endpoints "lava.example.com:443,LAV1"
+```
+
 ## Become a validator
 
 ### Request test token
 get test tokens from faucet using your public address
 
-### Run the validator instance
+### Setup Validator
 
-wait for your validator to catch up with the rest of network before you proceeding. you can check validator's current info by running this:
+wait for your node to catch up with the rest of network before you proceeding. you can check validator's current info by running this:
 ```shell
 docker compose exec validator /opt/helpers.sh validator:sync-info
 ```
@@ -80,5 +92,15 @@ then use the valoper address and amount in ulava , e.g to delegate 325ulava:
 docker compose exec validator /opt/helpers.sh validator:delegate VALOPER_ADDRESS_HERE "325ulava"
 
 ```
-
+## Become RPC Provider
+Each directory inside the providers directory represents and rpc service. lava included by default.    
+copy `.env.sample` to `.env` modify `RPC_CONTAINER_LABEL` and `RPC_URL` in .env file
+Set desired configs in `rpcprovider.yml` file then run:
+```bash
+docker compose up -d
+```
+That's it. your rpc node is up and running, fully isolated from other process. traefik will automatically detect this container and
+routes all traffic from `RPC_URL` to this container. just don't forget stake lava token your provider.
+### Add more providers
+To add more providers, clone this lava directory with a new name. repeat the same steps
 

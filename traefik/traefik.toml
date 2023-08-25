@@ -13,7 +13,7 @@ address = ":443"
 dashboard = false
 
 [certificatesResolvers.httpresolver.acme]
-email = "foobar@example.com"
+email = ""
 storage = "acme.json"
 # caServer = "https://acme-staging-v02.api.letsencrypt.org/directory" # uncomment this line to enable staging mode
 keyType= "EC256"

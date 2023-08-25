@@ -10,7 +10,7 @@ if [ -x /root/.lava/cosmovisor/current/bin/lavad ]; then
     done
 
     # Call lavad binary with preserved arguments
-    /root/.lava/cosmovisor/current/bin/lavad --home /root/.lava --node "$LAVA_NODE" "${args[@]}"
+    /root/.lava/cosmovisor/current/bin/lavad "${args[@]}"
 else
     echo "lavad binary not found."
 fi

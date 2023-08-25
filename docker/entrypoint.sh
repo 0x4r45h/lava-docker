@@ -53,7 +53,7 @@ main() {
       cosmovisor start --home=/root/.lava --p2p.seeds $SEED_NODE
       ;;
     "start-provider")
-      cosmovisor --home /root/.lava rpcprovider --node $LAVA_NODE  --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --chain-id $CHAIN_ID
+      cosmovisor --home /root/.lava rpcprovider --node $LAVA_NODE  --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --chain-id $CHAIN_ID --log_level $LOG_LEVEL
       ;;
     "lavad")
       /root/.lava/cosmovisor/current/bin/lavad --home /root/.lava --node $LAVA_NODE "${@:2}"
