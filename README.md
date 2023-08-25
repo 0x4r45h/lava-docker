@@ -14,14 +14,12 @@ touch traefik/acme.json && chmod 600 traefik/acme.json
 ```   
 ## Traefik 
 we use traefik as reverse proxy. it also manages certificates seamlessly.    
-insert your email (a valid email address or no cert will be generated) inside `traefik.toml` file under `certificatesResolvers.httpresolver.acme`, then run traefik instance:    
+insert your email (a valid email address or no cert will be generated) inside `traefik/traefik.toml` file under `certificatesResolvers.httpresolver.acme`, then run traefik instance:    
 ```shell
 docker compose -f traefik/docker-compose.yml up -d
 ```
 
-## Validator
-to run a validator clone this repo on server and cd into it
-
+## Run a Node
 copy environment file sample to .env and set your configs
 ```shell
 cp .env.sample .env
