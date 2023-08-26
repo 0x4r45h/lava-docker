@@ -117,7 +117,7 @@ routes all traffic from `RPC_URL` to this container. just don't forget stake lav
 
 To test your provider :
 ```shell
-docker compose exec rpcprovider lavad test rpcprovider --node tcp://validator:26657 --from asghar --endpoints "lava.example.com:443,LAV1"
+docker compose exec rpcprovider lavad test rpcprovider --node tcp://validator:26657 --from ACCOUNT_NAME_HERE --endpoints "lava.example.com:443,LAV1"
 ```
 ### Add more providers
 To add more providers, clone this lava directory with a new name. repeat the same steps
