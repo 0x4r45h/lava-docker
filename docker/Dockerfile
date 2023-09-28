@@ -32,6 +32,7 @@ COPY lavad-wrapper.sh /usr/local/bin/lavad
 COPY --from=builder /tmp/lavavisor /go/bin/lavavisor
 RUN chmod +x /opt/entrypoint.sh
 RUN chmod +x /usr/local/bin/lavad
-RUN chmod +x /usr/local/bin/lavavisor
+RUN chmod +x /go/bin/lavavisor
+ENV PATH="/go/bin:$PATH"
 ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD ["cosmovisor --help"]
