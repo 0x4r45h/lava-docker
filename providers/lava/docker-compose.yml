@@ -30,6 +30,7 @@ services:
 volumes:
   lavavisor:
     external: false
+    name: ${RPC_CONTAINER_LABEL}-volume
 networks:
   lava:
     external: true
