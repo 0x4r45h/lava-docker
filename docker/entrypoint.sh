@@ -44,6 +44,14 @@ init_function() {
   $LAVA_GENESIS_BINARY tendermint show-validator
 }
 
+start_lavavisor() {
+  service_type="$1"
+      file_path="/root/.lavavisor/config.yml"
+      if [ -f "$file_path" ]; then
+        lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE && lavavisor create-service $service_type /rpc.yml --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --log_level $LOG_LEVEL --keyring-backend test --chain-id $CHAIN_ID  --node $LAVA_NODE
+      fi
+        lavavisor start --node $LAVA_NODE
+}
 main() {
   case "$1" in
     "init")
@@ -52,11 +60,11 @@ main() {
     "start-node")
       cosmovisor start --home=/root/.lava --p2p.seeds $SEED_NODE
       ;;
-    "init-provider")
-        lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE && lavavisor create-service provider /rpcprovider.yml --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --log_level $LOG_LEVEL --keyring-backend test --chain-id $CHAIN_ID  --node $LAVA_NODE
+    "start-provider")
+      start_lavavisor "provider"
       ;;
-    "start-lavavisor")
-      lavavisor start --node $LAVA_NODE
+    "start-consumer")
+      start_lavavisor "consumer"
       ;;
     *)
       exec "$@"

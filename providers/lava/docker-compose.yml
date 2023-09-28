@@ -25,7 +25,7 @@ services:
       lava:
       public:
     volumes:
-      - ./rpcprovider.yml:/rpcprovider.yml
+      - ./rpc.yml:/rpc.yml
       - lavavisor:/root/.lavavisor
 volumes:
   lavavisor:
