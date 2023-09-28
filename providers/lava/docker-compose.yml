@@ -29,10 +29,10 @@ services:
       - lavavisor:/root/.lavavisor
 volumes:
   lavavisor:
-    external: true
-    name: lava
+    external: false
 networks:
   lava:
-    external: false
+    external: true
+    name: lava
   public:
     external: true
