@@ -15,8 +15,8 @@ RUN git clone --branch  $LAVA_REPO_TAG $LAVA_REPO_URL
 
 RUN wget -O /tmp/lavad  $LAVAD_GENESIS_BIN
 RUN mkdir -p "/root/.lava/config" "/root/.lava/cosmovisor/genesis/bin/"
-COPY $CONFIG_REPO_PATH/default_lavad_config_files/* /root/.lava/config/
-COPY $CONFIG_REPO_PATH/genesis_json/genesis.json /root/.lava/config/genesis.json
+COPY /tmp/$CONFIG_REPO_PATH/default_lavad_config_files/* /root/.lava/config/
+COPY /tmp/$CONFIG_REPO_PATH/genesis_json/genesis.json /root/.lava/config/genesis.json
 COPY /tmp/lavad /root/.lava/cosmovisor/genesis/bin/
 RUN chmod +x /root/.lava/cosmovisor/genesis/bin/lavad
 WORKDIR "/tmp/lava"
