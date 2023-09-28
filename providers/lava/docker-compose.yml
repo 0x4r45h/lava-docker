@@ -6,7 +6,7 @@ services:
       - .env
     restart: unless-stopped
     command:
-      - "start-provider"
+      - "start-lavavisor"
     labels:
       - traefik.enable=true
       - traefik.docker.network=public
