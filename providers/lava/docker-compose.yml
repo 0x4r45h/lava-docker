@@ -26,14 +26,13 @@ services:
       public:
     volumes:
       - ./rpcprovider.yml:/rpcprovider.yml
-      - lava:/root/.lava
+      - lavavisor:/root/.lavavisor
 volumes:
   lava:
     external: true
     name: lava
 networks:
-  lava:
-    external: true
-    name: lava
+  lavavisor:
+    external: false
   public:
     external: true
