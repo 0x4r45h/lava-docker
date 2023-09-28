@@ -25,6 +25,9 @@ RUN make install-all
 RUN rm -rf /tmp/*
 COPY entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
-#ENV PATH="/go/bin:/root/.lava/cosmovisor/current/bin:$PATH"
+# Remove the lavad binary to always use latest binary in path cosmovisor/current/bin
+RUN rm /go/bin/lavad
+ENV PATH="/root/.lava/cosmovisor/current/bin:$PATH"
+WORKDIR "/root"
 ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD ["cosmovisor --help"]
