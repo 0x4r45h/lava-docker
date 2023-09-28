@@ -52,8 +52,11 @@ main() {
     "start-node")
       cosmovisor start --home=/root/.lava --p2p.seeds $SEED_NODE
       ;;
-    "start-provider")
-      cosmovisor --home /root/.lava rpcprovider --node $LAVA_NODE --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --chain-id $CHAIN_ID --log_level $LOG_LEVEL
+    "init-provider")
+        lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE && lavavisor create-service provider /rpcprovider.yml --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --log_level $LOG_LEVEL --keyring-backend test --chain-id $CHAIN_ID  --node $LAVA_NODE
+      ;;
+    "start-lavavisor")
+      lavavisor start --node $LAVA_NODE
       ;;
     *)
       exec "$@"
