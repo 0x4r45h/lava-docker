@@ -6,8 +6,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Go binary and clean up Go cache
-RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0 \
-    && go clean -cache -modcache -i -r
+RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 
 # Define build arguments
 ARG CONFIG_REPO_URL=https://github.com/lavanet/lava-config.git
