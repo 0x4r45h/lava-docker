@@ -51,16 +51,22 @@ start_lavavisor() {
       fi
         lavavisor start --chain-id $CHAIN_ID --node $LAVA_NODE
 }
+update_lavap() {
+  while true; do
+    lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE ----directory /go/bin
+    sleep 300 # every 5min
+  done
+}
 main() {
   case "$1" in
     "init")
       init_function
       ;;
+    "update-lavap-version")
+      update_lavap
+      ;;
     "start-node")
       cosmovisor start --home=/root/.lava --p2p.seeds $SEED_NODE
-      ;;
-    "start_lavavisor")
-      start_lavavisor
       ;;
     *)
       exec "$@"

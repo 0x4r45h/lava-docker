@@ -7,7 +7,7 @@
 
 Create required external network and volume, which will be shared between different instances of nodes and providers
 ```shell
-docker network create lava && docker network create public && docker volume create lava
+docker network create lava && docker network create public && docker volume create lava && docker volume create lava_binaries
 ```
 Create acme.json file to store certificates   
 ```shell

@@ -1,6 +1,6 @@
 FROM golang:bullseye
 
-RUN apt-get update && apt-get install -y jq bash nano git logrotate sed unzip wget curl coreutils
+RUN apt-get update && apt-get install -y jq bash nano git logrotate sed unzip wget curl coreutils inotify-tools
 RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 
 ARG CONFIG_REPO_URL=https://github.com/lavanet/lava-config.git
@@ -29,5 +29,9 @@ RUN chmod +x /opt/entrypoint.sh
 RUN rm /go/bin/lavad
 ENV PATH="/root/.lava/cosmovisor/current/bin:$PATH"
 WORKDIR "/root"
+COPY  supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY --chmod=+x test_script.sh test_script.sh
+COPY --chmod=+x watcher.sh watcher.sh
+
 ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD ["cosmovisor --help"]
