@@ -32,6 +32,9 @@ volumes:
 #  lavavisor:
 #    external: false
 #    name: ${RPC_CONTAINER_LABEL}-volume
+  lava:
+    external: true
+    name: lava
   lava_binaries:
     external: true
     name: lava_binaries
