@@ -15,7 +15,6 @@ RUN git clone --branch  $LAVA_REPO_TAG $LAVA_REPO_URL
 RUN mkdir -p "/tmp/conf_repo" && mv $CONFIG_REPO_PATH/* /tmp/conf_repo
 
 RUN wget -O /tmp/lavad  $LAVAD_GENESIS_BIN
-RUN chmod +x /root/.lava/cosmovisor/genesis/bin/lavad
 WORKDIR "/tmp/lava"
 # make all instead of BINs
 RUN make install-all
