@@ -32,6 +32,8 @@ services:
       options:
         max-size: "12m"
         max-file: "5"
+    networks:
+      lava:
     volumes:
       - ./helpers.sh:/opt/helpers.sh
       - lava_binaries:/go/bin
