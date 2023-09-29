@@ -29,8 +29,8 @@ RUN chmod +x /opt/entrypoint.sh
 RUN rm /go/bin/lavad
 ENV PATH="/root/.lava/cosmovisor/current/bin:$PATH"
 WORKDIR "/root"
-COPY  supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY watcher.sh watcher.sh
-RUN chmod +x test_script.sh watcher.sh
+RUN chmod +x watcher.sh
 ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD ["cosmovisor --help"]
