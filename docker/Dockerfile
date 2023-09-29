@@ -12,7 +12,7 @@ ARG LAVA_REPO_TAG=v0.23.5
 WORKDIR "/tmp"
 RUN git clone $CONFIG_REPO_URL
 RUN git clone --branch  $LAVA_REPO_TAG $LAVA_REPO_URL
-RUN mkdir -p "/tmp/conf_repo" && mv $CONFIG_REPO_PATH/* /tmp/repo
+RUN mkdir -p "/tmp/conf_repo" && mv $CONFIG_REPO_PATH/* /tmp/conf_repo
 
 RUN wget -O /tmp/lavad  $LAVAD_GENESIS_BIN
 RUN chmod +x /root/.lava/cosmovisor/genesis/bin/lavad
