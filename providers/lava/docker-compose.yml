@@ -29,9 +29,6 @@ services:
       - lava:/root/.lava
       - lava_binaries:/go/bin
 volumes:
-#  lavavisor:
-#    external: false
-#    name: ${RPC_CONTAINER_LABEL}-volume
   lava:
     external: true
     name: lava

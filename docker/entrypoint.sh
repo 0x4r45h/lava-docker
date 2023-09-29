@@ -44,13 +44,6 @@ init_function() {
   $LAVA_GENESIS_BINARY tendermint show-validator
 }
 
-start_lavavisor() {
-      file_path="/root/.lavavisor/config.yml"
-      if [ ! -e  "$file_path" ]; then
-        lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE && lavavisor create-service $SERVICE_TYPE /rpc.yml --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --log_level $LOG_LEVEL --keyring-backend test --chain-id $CHAIN_ID  --node $LAVA_NODE
-      fi
-        lavavisor start --chain-id $CHAIN_ID --node $LAVA_NODE
-}
 update_lavap() {
   while true; do
     lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE --directory /go/bin
