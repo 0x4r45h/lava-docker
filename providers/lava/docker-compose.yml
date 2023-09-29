@@ -26,11 +26,15 @@ services:
       public:
     volumes:
       - ./rpc.yml:/rpc.yml
-      - lavavisor:/root/.lavavisor
+#      - lavavisor:/root/.lavavisor
+      - lava_binaries:/go/bin
 volumes:
-  lavavisor:
-    external: false
-    name: ${RPC_CONTAINER_LABEL}-volume
+#  lavavisor:
+#    external: false
+#    name: ${RPC_CONTAINER_LABEL}-volume
+  lava_binaries:
+    external: true
+    name: lava_binaries
 networks:
   lava:
     external: true
