@@ -22,10 +22,6 @@ RUN make install-all
 # Remove the lavad binary to always use latest binary in path cosmovisor/current/bin
 RUN rm /go/bin/lavad
 
-RUN apt-get clean && \
-        rm -rf /var/lib/apt/lists/* && \
-        rm -rf /tmp/* \
-
 #final image
 FROM golang:bullseye
 RUN apt-get update && apt-get install -y \
