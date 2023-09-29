@@ -32,5 +32,8 @@ WORKDIR "/root"
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY watcher.sh watcher.sh
 RUN chmod +x watcher.sh
+RUN apt-get clean && \
+        rm -rf /var/lib/apt/lists/* && \
+        rm -rf /tmp/*
 ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD ["cosmovisor --help"]
