@@ -32,6 +32,6 @@ WORKDIR "/root"
 COPY  supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY test_script.sh test_script.sh
 COPY watcher.sh watcher.sh
-RUN chmod test_script.sh +x watcher.sh
+RUN chmod +x test_script.sh watcher.sh
 ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD ["cosmovisor --help"]
