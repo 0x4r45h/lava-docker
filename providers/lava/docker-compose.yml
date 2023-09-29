@@ -25,7 +25,7 @@ services:
       lava:
       public:
     volumes:
-      - ./rpc.yml:/rpc.yml
+      - ./rpc.yml:/root/rpc.yml
       - lava:/root/.lava
       - lava_binaries:/go/bin
 volumes:
