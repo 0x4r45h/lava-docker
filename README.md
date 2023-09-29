@@ -7,7 +7,7 @@
 
 Create required external network and volume, which will be shared between different instances of nodes and providers
 ```shell
-docker network create lava && docker network create public && docker volume create lava
+docker network create lava && docker network create public && docker volume create lava && docker volume create lava_binaries
 ```
 Create acme.json file to store certificates   
 ```shell
@@ -96,29 +96,42 @@ docker compose exec validator /opt/helpers.sh validator:delegate VALOPER_ADDRESS
 ---
 
 # Run RPC Providers
-Each directory inside the providers directory represents and rpc service. lava network included by default.    
+
+### Lavavisor Workaround
+The newly released `lavavisor` heavily depends on `systemd` which is not available in containers. so i did some nasty things to achieve something
+like `auto-update` feature of `lavavisor`. i explain it shortly :   
+1. `lavavisor` container which periodically scans for new versions of `lavap` and download if any is available. the binaries are shared amongst all RPC services.
+2. a supervisor setup with 2 process for each RPC service. one runs the `lavap` service as normal, and a watcher process, which detects new installed versions of `lavap` and restarts the sibling RPC service accordingly
+
+    
+### Run Providers/Consumers
+**WARNING** I didn't test Consumer yet. maybe it doesn't work    
+   
+
+---
+Each directory inside the providers directory represents only ONE rpc service. lava provider included by default.    
 
 copy `.env.sample` to `.env` modify `RPC_CONTAINER_LABEL` and `RPC_URL`, `ACCOUNT_NAME` in .env file
 also if you are running a node using this repository, leave `LAVA_NODE` as it is, otherwise set public node url.   
 
 **IMPORTANT**   
-if you are not running your own node, make sure to change all **node_urls** in rpcprovider.yml to your public node url and ports    
+The given `rpc.yml` example files assumes you are running you own lava node. if you are not running your own node, make sure to change all **node_urls** in `rpc.yml` to a public node url
 
 ```shell
 cd providers/lava
 cp .env.sample .env
 ```
-Set desired configs in `rpcprovider.yml` file then run:
+Set desired configs in `rpc.yml` file then run:
 ```bash
 docker compose up -d
 ```
-That's it. your rpc node is up and running, fully isolated from other process. traefik will automatically detect this container and generates a certificate using lets encrypt and
+That's it. your rpc provider is up and running, fully isolated from other process. traefik will automatically detect this container and generates a certificate using lets encrypt and
 routes all traffic from `RPC_URL` to this container. just don't forget stake lava token your provider.
 
 To test your provider :
 ```shell
-docker compose exec rpcprovider lavad test rpcprovider --node tcp://validator:26657 --from ACCOUNT_NAME_HERE --endpoints "lava.example.com:443,LAV1"
+docker compose exec rpcprovider lavap test rpcprovider --node tcp://validator:26657 --from ACCOUNT_NAME_HERE --endpoints "lava.example.com:443,LAV1"
 ```
 ### Add more providers
-To add more providers, clone this lava directory with a new name. repeat the same steps
+To add more providers/consumers, clone this lava directory with a new name. repeat the same steps
 

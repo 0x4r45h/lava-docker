@@ -44,16 +44,22 @@ init_function() {
   $LAVA_GENESIS_BINARY tendermint show-validator
 }
 
+update_lavap() {
+  while true; do
+    lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE --directory /go/bin
+    sleep 300 # every 5min
+  done
+}
 main() {
   case "$1" in
     "init")
       init_function
       ;;
+    "update-lavap-version")
+      update_lavap
+      ;;
     "start-node")
       cosmovisor start --home=/root/.lava --p2p.seeds $SEED_NODE
-      ;;
-    "start-provider")
-      cosmovisor --home /root/.lava rpcprovider --node $LAVA_NODE --geolocation $GEO_LOCATION --from $ACCOUNT_NAME --chain-id $CHAIN_ID --log_level $LOG_LEVEL
       ;;
     *)
       exec "$@"
