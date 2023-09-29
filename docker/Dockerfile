@@ -1,6 +1,6 @@
 FROM golang:bullseye
 
-RUN apt-get update && apt-get install -y jq bash nano git logrotate sed unzip wget curl coreutils inotify-tools
+RUN apt-get update && apt-get install -y jq bash nano git logrotate sed unzip wget curl coreutils inotify-tools supervisor
 RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 
 ARG CONFIG_REPO_URL=https://github.com/lavanet/lava-config.git
