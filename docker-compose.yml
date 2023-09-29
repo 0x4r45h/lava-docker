@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   validator:
-    image: arashidos/lava-cosmovisor:v0.23.5
+    image: arashidos/lava:v0.23.5
     env_file:
       - .env
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
       - ./helpers.sh:/opt/helpers.sh
       - lava:/root/.lava
   lavavisor:
-    image: arashidos/lava-cosmovisor:v0.23.5
+    image: arashidos/lava:v0.23.5
     env_file:
       - .env
     restart: unless-stopped
