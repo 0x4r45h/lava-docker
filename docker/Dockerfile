@@ -1,4 +1,4 @@
-FROM golang:bullseye as builder
+FROM golang:1.21.2-bullseye as builder
 
 RUN apt-get update && apt-get install -y jq bash git sed unzip wget curl coreutils
 RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
@@ -22,7 +22,7 @@ RUN make install-all
 RUN rm /go/bin/lavad
 
 #final image
-FROM golang:bullseye
+FROM golang:1.21.2-bullseye
 RUN apt-get update && apt-get install -y \
     jq bash nano git logrotate sed unzip wget curl coreutils inotify-tools supervisor \
     && apt-get clean && rm -rf /var/lib/apt/lists/*

@@ -46,7 +46,7 @@ init_function() {
 
 update_lavap() {
   while true; do
-    lavavisor init --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE --directory /go/bin
+    lavavisor init --log_level debug --auto-download --chain-id $CHAIN_ID --node $LAVA_NODE --directory /go/bin
     sleep 300 # every 5min
   done
 }
