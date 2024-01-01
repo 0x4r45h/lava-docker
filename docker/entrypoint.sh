@@ -53,7 +53,7 @@ main() {
       cosmovisor start --home=/root/.lava --p2p.seeds $SEED_NODE
       ;;
     "start-rpcprovider")
-      lavavisor pod --cmd "lavap ${SERVICE_TYPE} /rpc.yml --geolocation ${GEO_LOCATION} --from ${ACCOUNT_NAME} --log_level ${LOG_LEVEL} --keyring-backend test --chain-id ${CHAIN_ID}  --node ${LAVA_NODE}"
+      lavavisor pod --chain-id ${CHAIN_ID}  --node ${LAVA_NODE} --cmd "lavap ${SERVICE_TYPE} /rpc.yml --geolocation ${GEO_LOCATION} --from ${ACCOUNT_NAME} --log_level ${LOG_LEVEL} --keyring-backend test --chain-id ${CHAIN_ID}  --node ${LAVA_NODE}"
       ;;
     *)
       exec "$@"
