@@ -6,7 +6,7 @@ services:
       - .env
     restart: unless-stopped
     command:
-      - /go/bin/lavavisor pod --cmd ${SERVICE_TYPE} /rpc.yml --geolocation ${GEO_LOCATION} --from ${ACCOUNT_NAME} --log_level ${LOG_LEVEL} --keyring-backend test --chain-id ${CHAIN_ID}  --node ${LAVA_NODE}
+      - "start-rpcprovider"
     labels:
       - traefik.enable=true
       - traefik.docker.network=public
