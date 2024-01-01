@@ -5,9 +5,9 @@ RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 
 ARG CONFIG_REPO_URL=https://github.com/lavanet/lava-config.git
 ARG CONFIG_REPO_PATH=lava-config/testnet-2
-#ARG LAVAD_GENESIS_BIN=https://github.com/lavanet/lava/releases/download/v0.32.0/lavad-v0.32.0-linux-amd64
+#ARG LAVAD_GENESIS_BIN=https://github.com/lavanet/lava/releases/download/v0.32.2/lavad-v0.32.2-linux-amd64
 ARG LAVA_REPO_URL=https://github.com/lavanet/lava.git
-ARG LAVA_REPO_TAG=v0.32.0
+ARG LAVA_REPO_TAG=v0.32.2
 
 WORKDIR "/tmp"
 RUN git clone $CONFIG_REPO_URL
@@ -31,6 +31,7 @@ RUN mkdir -p "/root/.lava/config" && mkdir -p "/root/.lava/cosmovisor/genesis/bi
 COPY --from=builder /tmp/conf_repo/default_lavad_config_files/* /root/.lava/config/
 COPY --from=builder /tmp/conf_repo/genesis_json/genesis.json /root/.lava/config/genesis.json
 COPY --from=builder /go/bin/lavavisor /go/bin/
+COPY --from=builder /go/bin/cosmovisor /go/bin/
 COPY --from=builder /go/bin/lavad /root/.lava/cosmovisor/genesis/bin/
 COPY entrypoint.sh /opt/entrypoint.sh
 #COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
