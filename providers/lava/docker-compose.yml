@@ -1,12 +1,12 @@
 version: "3.9"
 services:
   rpcprovider:
-    image: arashidos/lava:v0.23.5
+    image: ${LAVA_IMAGE:-arashidos/lava:v0.32.0}
     env_file:
       - .env
     restart: unless-stopped
     command:
-      - "/usr/bin/supervisord"
+      - "start-rpcprovider"
     labels:
       - traefik.enable=true
       - traefik.docker.network=public
@@ -26,15 +26,14 @@ services:
       public:
     volumes:
       - ./rpc.yml:/root/rpc.yml
-      - lava:/root/.lava
-      - lava_binaries:/go/bin
+      - type: volume
+        source: lava
+        target: /root/.lava
+        read_only: true
 volumes:
   lava:
     external: true
     name: lava
-  lava_binaries:
-    external: true
-    name: lava_binaries
 networks:
   lava:
     external: true

@@ -37,17 +37,17 @@ otherwise **make a backup from newly generated files and keep them safe**
 ./helpers.sh node:backup
 ```
 ---
-### A note on running `lavad` commands
-Generally, to run any `lavad` commands, prefix it like this:
+### A note on running `lavad` and `lavap` commands
+Generally, to run any `lavad` or `lavap` commands, prefix it like this:
 ```bash
-docker compose exec [service name] lavad [command args]
+docker compose exec [service name] [lavad or lavap] [command args]
 ```
 where service name can be either `validator` or `rpcprovider`. based on which docker-compose.yml file you are working with
 
 for example to test our lava rpc using our own node, inside the rpc provider directory:
 ```bash
 cd providers/lava
-docker compose exec rpcprovider lavad test rpcprovider --node tcp://validator:26657 --from foo --endpoints "lava.example.com:443,LAV1"
+docker compose exec rpcprovider lavap test rpcprovider --node tcp://validator:26657 --from foo --endpoints "lava.example.com:443,LAV1"
 ```
 ---
 
@@ -97,12 +97,8 @@ docker compose exec validator /opt/helpers.sh validator:delegate VALOPER_ADDRESS
 
 # Run RPC Providers
 
-### Lavavisor Workaround
-The newly released `lavavisor` heavily depends on `systemd` which is not available in containers. so i did some nasty things to achieve something
-like `auto-update` feature of `lavavisor`. i explain it shortly :   
-1. `lavavisor` container which periodically scans for new versions of `lavap` and download if any is available. the binaries are shared amongst all RPC services.
-2. a supervisor setup with 2 process for each RPC service. one runs the `lavap` service as normal, and a watcher process, which detects new installed versions of `lavap` and restarts the sibling RPC service accordingly
-
+### Lavavisor
+Each RPC container is managed by `lavavisor pod` , so it automatically updates the underlying `lavap` binary
     
 ### Run Providers/Consumers
 **WARNING** I didn't test Consumer yet. maybe it doesn't work    
@@ -126,7 +122,10 @@ Set desired configs in `rpc.yml` file then run:
 docker compose up -d
 ```
 That's it. your rpc provider is up and running, fully isolated from other process. traefik will automatically detect this container and generates a certificate using lets encrypt and
-routes all traffic from `RPC_URL` to this container. just don't forget stake lava token your provider.
+routes all traffic from `RPC_URL` to this container. just don't forget stake lava token your provider. for example to stake for lava provider :    
+```shell
+docker compose exec rpcprovider lavap --node tcp://validator:26657 tx pairing stake-provider LAV1 50000000000ulava "lava.example.com:443,2" 2 --from ACCOUNT_NAME_HERE  --provider-moniker MONIKER_HERE --gas-adjustment 1.5 --gas auto --gas-prices 0.0001ulava
+```
 
 To test your provider :
 ```shell
