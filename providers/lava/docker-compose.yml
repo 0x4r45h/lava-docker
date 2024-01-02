@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   rpcprovider:
-    image: arashidos/lava:v0.32.0
+    image: ${LAVA_IMAGE:-arashidos/lava:v0.32.0}
     env_file:
       - .env
     restart: unless-stopped
