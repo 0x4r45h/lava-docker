@@ -34,9 +34,10 @@ COPY --from=builder /go/bin/lavavisor /go/bin/
 COPY --from=builder /go/bin/cosmovisor /go/bin/
 COPY --from=builder /go/bin/lavad /root/.lava/cosmovisor/genesis/bin/
 COPY entrypoint.sh /opt/entrypoint.sh
-#COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-#COPY watcher.sh /root/watcher.sh
-RUN chmod +x /opt/entrypoint.sh /root/.lava/cosmovisor/genesis/bin/lavad
+COPY helpers.sh /opt/helpers.sh
+# a helper wrapper to proxy lavap commands to the latest version of lavap
+COPY lavap_latest.sh /bin/lavap
+RUN chmod +x /opt/entrypoint.sh /root/.lava/cosmovisor/genesis/bin/lavad /bin/lavap
 ENV PATH="/root/.lava/cosmovisor/current/bin:$PATH"
 WORKDIR "/root"
 ENTRYPOINT ["/opt/entrypoint.sh"]

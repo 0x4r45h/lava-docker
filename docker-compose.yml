@@ -19,7 +19,6 @@ services:
     networks:
       lava:
     volumes:
-      - ./helpers.sh:/opt/helpers.sh
       - lava:/root/.lava
 volumes:
   lava:
