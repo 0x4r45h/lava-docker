@@ -1,15 +1,6 @@
 version: "3.9"
 services:
   validator:
-    build:
-      dockerfile: docker/Dockerfile
-      context: docker/.
-      args:
-       - CONFIG_REPO_URL=${CONFIG_REPO_URL:-https://github.com/lavanet/lava-config.git}
-       - CONFIG_REPO_PATH=${CONFIG_REPO_PATH:-lava-config/testnet-2}
-       - LAVA_REPO_URL=${LAVA_REPO_URL:-https://github.com/lavanet/lava.git}
-       - LAVA_REPO_TAG=${LAVA_REPO_TAG:-v0.32.0}
-
     image: ${LAVA_IMAGE:-arashidos/lava:v0.32.0}
     env_file:
       - .env
