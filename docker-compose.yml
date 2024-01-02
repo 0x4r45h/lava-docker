@@ -3,7 +3,7 @@ services:
   validator:
     build:
       dockerfile: docker/Dockerfile
-      context: .
+      context: docker/.
       args:
        - CONFIG_REPO_URL=${CONFIG_REPO_URL:-https://github.com/lavanet/lava-config.git}
        - CONFIG_REPO_PATH=${CONFIG_REPO_PATH:-lava-config/testnet-2}
