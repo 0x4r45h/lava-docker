@@ -6,7 +6,7 @@ RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 ARG CONFIG_REPO_URL=https://github.com/lavanet/lava-config.git
 ARG CONFIG_REPO_PATH=lava-config/testnet-2
 ARG LAVA_REPO_URL=https://github.com/lavanet/lava.git
-ARG LAVA_REPO_TAG
+ARG LAVA_REPO_TAG=v0.32.0
 
 WORKDIR "/tmp"
 RUN git clone $CONFIG_REPO_URL
